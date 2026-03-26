@@ -48,7 +48,6 @@ const TopNewsDrawer = ({ open, onClose, news }) => {
 
         {/* Content */}
         <div className="p-4 space-y-4 overflow-y-auto h-[calc(100%-64px)]">
-
           {/* Loading */}
           {news.length === 0 && (
             <div className="space-y-3 animate-pulse">

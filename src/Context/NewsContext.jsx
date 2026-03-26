@@ -12,12 +12,20 @@ const NewsContextProvider = ({ children }) => {
     const fetchNews = async (url = "/everything?q=bitcoin") => {
         setLoading(true);
         try {
-            const response = await api.get(`${url}&apiKey=${import.meta.env.VITE_API_KEY}`)
+            let requestUrl;
+            if (import.meta.env.DEV) {
+                // Dev: call NewsAPI directly with key
+                requestUrl = `${url}&apiKey=${import.meta.env.VITE_API_KEY}`;
+            } else {
+                // Production: use Vercel serverless proxy
+                requestUrl = `?url=${encodeURIComponent(url)}`;
+            }
+            const response = await api.get(requestUrl);
             setLoading(false);
             return response.data;
         } catch (error) {
             console.error(error);
-            setLoading(false)
+            setLoading(false);
         }
     }
     return (
